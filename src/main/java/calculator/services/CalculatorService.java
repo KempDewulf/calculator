@@ -45,6 +45,9 @@ public class CalculatorService {
         } else if (operator == Operator.SQUARED && !input.equals("\u00B2")) {
             throw new IllegalStateException("can't enter number after squared operator");
         }
+        if (input.equals(".") && this.input.contains(input)){
+            throw new IllegalStateException("can't add multiple decimal dots");
+        }
         this.input += input;
     }
 
