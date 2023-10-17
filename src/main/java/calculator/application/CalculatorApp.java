@@ -4,7 +4,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.Objects;
 
@@ -20,6 +22,8 @@ public class CalculatorApp extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
+        primaryStage.setTitle("Calculator");
+        primaryStage.getIcons().add(new Image("file:src/main/resources/icons/calculator.png"));
         primaryStage.show();
     }
 }
