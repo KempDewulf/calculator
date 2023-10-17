@@ -53,7 +53,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onZero" style="-fx-background-color: #696969;" text="0" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <Button fx:id="num0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="0" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -77,7 +77,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onThree" style="-fx-background-color: #696969;" text="3" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="3">
+            <Button fx:id="num3" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="3" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -85,7 +85,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onTwo" style="-fx-background-color: #696969;" text="2" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="3">
+            <Button fx:id="num2" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="2" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -93,7 +93,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onOne" style="-fx-background-color: #696969;" text="1" textFill="#e1e1e1" GridPane.rowIndex="3">
+            <Button fx:id="num1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="1" textFill="#e1e1e1" GridPane.rowIndex="3">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -109,7 +109,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSix" style="-fx-background-color: #696969;" text="6" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="2">
+            <Button fx:id="num6" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="6" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -117,7 +117,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onFive" style="-fx-background-color: #696969;" text="5" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="num5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="5" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -125,7 +125,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onFour" style="-fx-background-color: #696969;" text="4" textFill="#e1e1e1" GridPane.rowIndex="2">
+            <Button fx:id="num4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="4" textFill="#e1e1e1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -141,7 +141,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNine" style="-fx-background-color: #696969;" text="9" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="1">
+            <Button fx:id="num9" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="9" textFill="#e1e1e1" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -149,7 +149,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onEight" style="-fx-background-color: #696969;" text="8" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="num8" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="8" textFill="#e1e1e1" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
@@ -157,7 +157,7 @@
                   <Font name="Calibri" size="24.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSeven" style="-fx-background-color: #696969;" text="7" textFill="#e1e1e1" GridPane.rowIndex="1">
+            <Button fx:id="num7" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onNumClick" style="-fx-background-color: #696969;" text="7" textFill="#e1e1e1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
                </GridPane.margin>
