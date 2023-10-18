@@ -3,103 +3,117 @@ package calculator.services;
 import calculator.domain.Calculator;
 import calculator.util.Operator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class CalculatorService {
-    private String input = "";
-    private Operator operator;
-    private String operatorString;
+    private final List<String> numbers = new ArrayList<>();
+    private final List<Operator> operators = new ArrayList<>();
     private boolean showingResult = false;
+    private Operator operator;
 
-    public void setOperator(Operator operator, String operatorString) {
-        if (this.operator != null || input.equals("")) {
-            throw new IllegalStateException("already an operator set");
+    public void setOperator(Operator operator) {
+        if (numbers.size() <= operators.size()) {
+            throw new IllegalStateException("can't have multiple operators after each other");
         }
-        this.operator = operator;
-
-        if (operator == Operator.SQUARED) {
-            this.operatorString = "\u00B2";
-        } else {
-            this.operatorString = operatorString;
-        }
+        operators.add(operator);
         showingResult = false;
-        addInput(this.operatorString);
     }
 
-    public Operator getOperator() {
-        return this.operator;
+    public void deleteOperators() {
+        operators.clear();
     }
 
-    public String getOperatorString() {
-        return this.operatorString;
-    }
-
-    public void deleteOperator() {
-        this.operator = null;
-    }
-
-    public void addInput(String input) {
+    public void addNumber(String input) {
         if (showingResult) {
-            this.input = "";
+            numbers.clear();
             showingResult = false;
-        } else if (operator == Operator.SQUARED && !input.equals("\u00B2")) {
+        }
+        if (getLastInput().equals("\u00B2")) {
             throw new IllegalStateException("can't enter number after squared operator");
+        } else if (input.equals(".") && getLastNumber().contains(".")) {
+            throw new IllegalStateException("can't have multiple decimal dots in one number");
         }
-        if (input.equals(".") && this.input.contains(input)){
-            throw new IllegalStateException("can't add multiple decimal dots");
-        }
-        this.input += input;
+        numbers.add(input);
     }
 
-    public String getInput() {
-        return this.input;
+    public void deleteNumbers() {
+        numbers.clear();
+    }
+
+    public String getLastNumber() {
+        int lastIndex = numbers.size() - 1;
+        return lastIndex >= 0 ? numbers.get(lastIndex) : "";
+    }
+
+    public Operator getLastOperator() {
+        int lastIndex = operators.size() - 1;
+        return operators.get(lastIndex);
+    }
+
+    public String getLastInput() {
+        if (operators.size() > numbers.size()) {
+            return getLastOperator().getSymbol();
+        } else {
+            return getLastNumber();
+        }
+    }
+
+    public String getFullInput() {
+        StringBuilder string = new StringBuilder();
+
+        for (int i = 0; i < numbers.size(); i++) {
+            string.append(numbers.get(i));
+            if (i < operators.size()) {
+                string.append(operators.get(i).getSymbol());
+            }
+        }
+
+        return string.toString();
     }
 
     public void deleteLastInput() {
-        int lastCharIndex = input.length() - 1;
-        String lastChar = input.substring(lastCharIndex);
-
-        if (Operator.isOperator(lastChar)) {
-            this.operator = null;
-            this.operatorString = null;
+        if (operator.isOperator(getLastInput())) {
+            int lastIndex = operators.size() - 1;
+            operators.remove(lastIndex);
+        } else {
+            int lastIndex = numbers.size() - 1;
+            numbers.remove(lastIndex);
         }
-
-        this.input = this.input.substring(0, lastCharIndex);
     }
 
     public void deleteAllInput() {
-        this.input = "";
+        deleteNumbers();
+        deleteOperators();
     }
 
-    public void getResult() {
-        String[] numbers = input.split(Pattern.quote(operatorString));
-        float num1 = Float.parseFloat(numbers[0]);
-        float num2 = 0;
-        if (numbers.length > 1) {
-             num2 = Float.parseFloat(numbers[1]);
+    public void calculateInput() {
+        while (!operators.isEmpty()) {
+            calculateNext();
         }
+    }
+
+    public void calculateNext() {
+        Operator op = operators.get(0);
+        float num1 = Float.parseFloat(numbers.get(0));
+        float num2 = op.equals(Operator.SQUARED) ? num1 : Float.parseFloat(numbers.get(1));
+
+        float result = calculate(op, num1, num2);
+
+        operators.remove(0);
+        numbers.remove(0);
+        numbers.set(0, Float.toString(result));
+    }
+
+    public float calculate(Operator op, float num1, float num2) {
         float result = 0;
-
-        switch(operator) {
-            case ADD ->
-                result = Calculator.add(num1, num2);
-            case SUBTRACT ->
-                result = Calculator.subtract(num1, num2);
-            case MULTIPLY ->
-                result = Calculator.multiply(num1, num2);
-            case DIVIDE -> {
-                if (num2 == 0) {
-                    this.input = "Wie Deelt Door 0 Is Een Snul";
-                    return;
-                }
-                result = Calculator.divide(num1, num2);
-            }
-            case SQUARED ->
-                result = Calculator.square(num1);
+        switch (op) {
+            case ADD -> result = Calculator.add(num1, num2);
+            case SUBTRACT -> result = Calculator.subtract(num1, num2);
+            case SQUARED, MULTIPLY -> result = Calculator.multiply(num1, num2);
+            case DIVIDE -> result = Calculator.divide(num1, num2);
         }
-
-        this.input =  Float.toString(result);
-        this.showingResult = true;
-        this.operator = null;
+        return result;
     }
 }

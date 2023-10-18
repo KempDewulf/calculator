@@ -37,7 +37,6 @@ public class CalculatorAppController {
     @FXML
     void onDeleteAll(ActionEvent event) {
         service.deleteAllInput();
-        service.deleteOperator();
 
         showInput();
     }
@@ -51,7 +50,7 @@ public class CalculatorAppController {
 
     @FXML
     void onEnter(ActionEvent event) {
-        service.getResult();
+        service.calculateInput();
 
         showInput();
     }
@@ -59,9 +58,8 @@ public class CalculatorAppController {
     @FXML
     void onOperatorClick(ActionEvent event) {
         String operator = ((Button) event.getSource()).getId();
-        String operatorText = ((Button) event.getSource()).getText();
 
-        service.setOperator(Operator.valueOf(operator), operatorText);
+        service.setOperator(Operator.valueOf(operator));
 
         showInput();
     }
@@ -70,12 +68,12 @@ public class CalculatorAppController {
     void onNumClick(ActionEvent event) {
         String number = ((Button) event.getSource()).getText();
 
-        service.addInput(number);
+        service.addNumber(number);
         showInput();
     }
 
     private void showInput() {
-        outputLbl.setText(service.getInput());
+        outputLbl.setText(service.getFullInput());
     }
 
     @FXML
