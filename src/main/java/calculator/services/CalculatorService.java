@@ -81,7 +81,6 @@ public class CalculatorService {
             numbers.remove(lastIndex);
         }
     }
-
     public void deleteAllInput() {
         deleteNumbers();
         deleteOperators();
