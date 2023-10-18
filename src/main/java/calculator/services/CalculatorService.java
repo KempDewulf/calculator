@@ -5,7 +5,6 @@ import calculator.util.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class CalculatorService {
     private final List<String> numbers = new ArrayList<>();
@@ -89,21 +88,40 @@ public class CalculatorService {
     }
 
     public void calculateInput() {
-        while (!operators.isEmpty()) {
-            calculateNext();
+        calculateExponentiations();
+        calculateOperations(Operator.MULTIPLY, Operator.DIVIDE);
+        calculateOperations(Operator.ADD, Operator.SUBTRACT);
+    }
+
+    public void calculateExponentiations() {
+        while (operators.contains(Operator.SQUARED)) {
+            int index = operators.indexOf(Operator.SQUARED);
+            float num1 = Float.parseFloat(numbers.get(index));
+            float result = calculate(Operator.SQUARED, num1, num1);
+
+            numbers.set(index, Float.toString(result));
+            operators.remove(index);
         }
     }
 
-    public void calculateNext() {
-        Operator op = operators.get(0);
-        float num1 = Float.parseFloat(numbers.get(0));
-        float num2 = op.equals(Operator.SQUARED) ? num1 : Float.parseFloat(numbers.get(1));
+    public void calculateOperations(Operator op1, Operator op2) {
+        while (operators.contains(op1) || operators.contains(op2)) {
+            int firstOpIndex = operators.indexOf(op1);
+            int secondOpIndex = operators.indexOf(op2);
 
-        float result = calculate(op, num1, num2);
+            //get the lowest positive index
+            int index = (firstOpIndex >= 0 && secondOpIndex >= 0) ? Math.min(firstOpIndex, secondOpIndex) : (firstOpIndex >= 0) ? firstOpIndex : secondOpIndex;
 
-        operators.remove(0);
-        numbers.remove(0);
-        numbers.set(0, Float.toString(result));
+            float num1 = Float.parseFloat(numbers.get(index));
+            float num2 = Float.parseFloat(numbers.get(index + 1));
+            Operator op = operators.get(index);
+
+            float result = calculate(op, num1, num2);
+
+            operators.remove(index);
+            numbers.remove(index);
+            numbers.set(index, Float.toString(result));
+        }
     }
 
     public float calculate(Operator op, float num1, float num2) {
