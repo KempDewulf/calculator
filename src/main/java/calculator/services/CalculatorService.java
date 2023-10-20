@@ -13,32 +13,37 @@ public class CalculatorService {
     private Operator operator;
 
     public void setOperator(Operator operator) {
-        if (numbers.size() <= operators.size()) {
+        boolean isLastInputOperator = numbers.size() <= operators.size();
+
+        if (isLastInputOperator) {
             operators.set(operators.size() - 1, operator);
         } else {
             operators.add(operator);
         }
         showingResult = false;
-        System.out.println(operators);
     }
 
-    public void deleteOperators() {
+    public void removeOperators() {
         operators.clear();
     }
 
     public void addNumber(String input) {
+        if (showingResult) {
+            removeNumbers();
+            showingResult = false;
+        }
+
         boolean isLastInputIsSquared = getLastInput().equals("\u00B2");
         boolean isAddingMultipleDecimalPoints = input.equals(".") && getLastNumber().contains(".");
         boolean isInputAfterOperator = numbers.size() <= operators.size();
 
-        if (showingResult) {
-            clearInput();
-        }
         if (isLastInputIsSquared) {
             throw new IllegalStateException("can't enter number after squared operator");
         } else if (isAddingMultipleDecimalPoints) {
             throw new IllegalStateException("can't have multiple decimal dots in one number");
         }
+
+
         if (isInputAfterOperator) {
             numbers.add(input);
         } else {
@@ -46,12 +51,7 @@ public class CalculatorService {
         }
     }
 
-    public void clearInput() {
-        numbers.clear();
-        showingResult = false;
-    }
-
-    public void deleteNumbers() {
+    public void removeNumbers() {
         numbers.clear();
     }
 
@@ -96,8 +96,8 @@ public class CalculatorService {
         }
     }
     public void deleteAllInput() {
-        deleteNumbers();
-        deleteOperators();
+        removeNumbers();
+        removeOperators();
     }
 
     public void calculateInput() {
@@ -107,6 +107,8 @@ public class CalculatorService {
         calculateExponentiations();
         calculateOperations(Operator.MULTIPLY, Operator.DIVIDE);
         calculateOperations(Operator.ADD, Operator.SUBTRACT);
+
+        showingResult = true;
     }
 
     public void calculateExponentiations() {
@@ -115,19 +117,22 @@ public class CalculatorService {
             float num1 = Float.parseFloat(numbers.get(index));
             float result = calculate(Operator.SQUARED, num1, num1);
 
-            numbers.set(index, Float.toString(result));
             operators.remove(index);
+
+            if (result == Math.floor(result)) {
+                numbers.set(index, String.valueOf((int) result));
+            } else {
+                numbers.set(index, Float.toString(result));
+            }
         }
     }
 
     public void calculateOperations(Operator op1, Operator op2) {
         while (operators.contains(op1) || operators.contains(op2)) {
-            System.out.println("ok");
             int firstOpIndex = operators.indexOf(op1);
             int secondOpIndex = operators.indexOf(op2);
 
-            //get the lowest positive index
-            int index = (firstOpIndex >= 0 && secondOpIndex >= 0) ? Math.min(firstOpIndex, secondOpIndex) : (firstOpIndex >= 0) ? firstOpIndex : secondOpIndex;
+            int index = getLowestPositiveIndex(firstOpIndex, secondOpIndex);
 
             float num1 = Float.parseFloat(numbers.get(index));
             float num2 = Float.parseFloat(numbers.get(index + 1));
@@ -137,7 +142,22 @@ public class CalculatorService {
 
             operators.remove(index);
             numbers.remove(index);
-            numbers.set(index, Float.toString(result));
+
+            if (result == Math.floor(result)) {
+                numbers.set(index, String.valueOf((int) result));
+            } else {
+                numbers.set(index, Float.toString(result));
+            }
+        }
+    }
+
+    public int getLowestPositiveIndex(int index1, int index2) {
+        if (index1 >= 0 && index2 >= 0) {
+            return Math.min(index1, index2);
+        } else if (index1 >= 0) {
+            return index1;
+        } else {
+            return index2;
         }
     }
 
