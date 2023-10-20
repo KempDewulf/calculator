@@ -14,10 +14,12 @@ public class CalculatorService {
 
     public void setOperator(Operator operator) {
         if (numbers.size() <= operators.size()) {
-            throw new IllegalStateException("can't have multiple operators after each other");
+            operators.set(operators.size() - 1, operator);
+        } else {
+            operators.add(operator);
         }
-        operators.add(operator);
         showingResult = false;
+        System.out.println(operators);
     }
 
     public void deleteOperators() {
@@ -25,16 +27,28 @@ public class CalculatorService {
     }
 
     public void addNumber(String input) {
+        boolean isLastInputIsSquared = getLastInput().equals("\u00B2");
+        boolean isAddingMultipleDecimalPoints = input.equals(".") && getLastNumber().contains(".");
+        boolean isInputAfterOperator = numbers.size() <= operators.size();
+
         if (showingResult) {
-            numbers.clear();
-            showingResult = false;
+            clearInput();
         }
-        if (getLastInput().equals("\u00B2")) {
+        if (isLastInputIsSquared) {
             throw new IllegalStateException("can't enter number after squared operator");
-        } else if (input.equals(".") && getLastNumber().contains(".")) {
+        } else if (isAddingMultipleDecimalPoints) {
             throw new IllegalStateException("can't have multiple decimal dots in one number");
         }
-        numbers.add(input);
+        if (isInputAfterOperator) {
+            numbers.add(input);
+        } else {
+            numbers.set(operators.size(), getLastNumber() + input);
+        }
+    }
+
+    public void clearInput() {
+        numbers.clear();
+        showingResult = false;
     }
 
     public void deleteNumbers() {
@@ -87,6 +101,9 @@ public class CalculatorService {
     }
 
     public void calculateInput() {
+        if (numbers.size() == operators.size() && getLastOperator() != Operator.SQUARED) {
+            throw new IllegalStateException("Last input can't be operator");
+        }
         calculateExponentiations();
         calculateOperations(Operator.MULTIPLY, Operator.DIVIDE);
         calculateOperations(Operator.ADD, Operator.SUBTRACT);
@@ -105,6 +122,7 @@ public class CalculatorService {
 
     public void calculateOperations(Operator op1, Operator op2) {
         while (operators.contains(op1) || operators.contains(op2)) {
+            System.out.println("ok");
             int firstOpIndex = operators.indexOf(op1);
             int secondOpIndex = operators.indexOf(op2);
 
